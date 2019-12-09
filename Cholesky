@@ -1,0 +1,31 @@
+Function Cholesky(Corr As Range)
+Dim matrix()
+matrix = Corr
+Dim L()
+ReDim L(1 To Corr.Rows.Count, 1 To Corr.Rows.Count)
+Dim i As Integer, j As Integer, k As Integer
+For i = 1 To Corr.Rows.Count
+For j = i To Corr.Rows.Count
+L(i, j) = 0: L(j, i) = 0
+Next j
+Next i
+
+For i = 1 To Corr.Rows.Count
+For j = 1 To i
+Dim s As Double
+s = 0
+If j = i Then
+For k = 1 To j - 1
+s = s + L(j, k) ^ 2
+Next k
+L(j, j) = Sqr(matrix(j, j) - s)
+Else
+For k = 1 To j - 1
+s = s + L(i, k) * L(j, k)
+Next k
+L(i, j) = (matrix(i, j) - s) / L(j, j)
+End If
+Next j
+Next i
+Cholesky = L
+End Function
