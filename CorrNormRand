@@ -1,0 +1,12 @@
+Function CorrNormRand(Corr As Range)
+Dim L(), i As Integer
+L = Cholesky(Corr)
+Dim normrnd()
+ReDim normrnd(1 To Corr.Rows.Count)
+With WorksheetFunction
+For i = LBound(normrnd) To UBound(normrnd)
+normrnd(i) = .NormSInv(Rnd + 1 / 2 ^ 25)
+Next i
+CorrNormRand = .Transpose(.MMult(L, .Transpose(normrnd)))
+End With
+End Function
